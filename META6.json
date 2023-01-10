@@ -1,0 +1,25 @@
+{
+  "auth": "zef:jaguart",
+  "authors": [
+    "Jeff Armstrong"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "reusable components for Raku",
+  "license": "Artistic-2.0",
+  "name": "Kaolin",
+  "perl": "6.d",
+  "provides": {
+    "Kaolin": "lib/Kaolin.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}

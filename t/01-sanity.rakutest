@@ -1,0 +1,9 @@
+use v6;
+
+use Test;
+plan 4;
+
+use-ok 'Kaolin';
+use-ok 'Kaolin::Moppet';
+use-ok 'Kaolin::Wisp';
+use-ok 'Kaolin::Utils';
