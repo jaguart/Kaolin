@@ -2,8 +2,12 @@ use v6;
 
 unit class Kaolin;
 
+# [![Version](https://raku.land/zef:jaguart/Grok/badges/version)](https://raku.land/zef:jaguart)
 
 =begin pod
+
+[![Actions Status](https://github.com/jaguart/Kaolin/actions/workflows/test.yml/badge.svg)](https://github.com/jaguart/Kaolin/actions)
+
 
 =head1 NAME
 

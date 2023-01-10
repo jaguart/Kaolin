@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/jaguart/Kaolin/actions/workflows/test.yml/badge.svg)](https://github.com/jaguart/Kaolin/actions)
+
 NAME
 ====
 
@@ -27,6 +29,10 @@ AUTHOR
 ======
 
 Jeff Armstrong <jeff@jaguart.tech>
+
+Source can be found at: https://github.com/jaguart/Kaolin
+
+Issues, Comments and Pull Requests are welcome.
 
 COPYRIGHT AND LICENSE
 =====================

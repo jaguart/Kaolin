@@ -12,11 +12,14 @@
   "name": "Kaolin",
   "perl": "6.d",
   "provides": {
-    "Kaolin": "lib/Kaolin.rakumod"
+    "Kaolin": "lib/Kaolin.rakumod",
+    "Kaolin::Moppet": "lib/Kaolin/Moppet.rakumod",
+    "Kaolin::Utils": "lib/Kaolin/Utils.rakumod",
+    "Kaolin::Wisp": "lib/Kaolin/Wisp.rakumod"
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/jaguart/Kaolin.git",
   "tags": [
   ],
   "test-depends": [
