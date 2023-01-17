@@ -17,8 +17,14 @@ Kaolin - reusable components for Raku
 
 =begin code :lang<raku>
 
-use Kaolin::Node;
-class Tree is Kaolin::Node;
+use Kaolin::File;
+my $dir = '.'.IO but Kaolin::File::Finder;
+.Str.say for $dir.find(:recursive);
+
+my $dir = '.'.IO but (Kaolin::File::Finder, Kaolin::File::Namer);
+.Str.say for $dir.find(:recursive).grep({$_.basename ne $_.basename-clean});
+.fix-basename.Str.say for $dir.find.grep({$_.basename ne $_.basename-clean});
+
 
 =end code
 
