@@ -42,7 +42,5 @@ our sub CompUnit-from-file ( IO::Path:D $file --> CompUnit )
     #           :next-repo(CompUnit::Repository::JavaRuntime.new)
     # rakudo/src/core.c/CompUnit/Repository/FileSystem.pm6 150 <--
     #BOOTContext( $*REPO.load( $file.IO ).unit );   # CompUnit::Handle
-
     $*REPO.load( $file.IO );  # CompUnit
-
 }
