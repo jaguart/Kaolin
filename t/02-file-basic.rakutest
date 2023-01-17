@@ -1,0 +1,28 @@
+use v6;
+
+use Test;
+plan 3;
+
+use Kaolin::File;
+
+# role Finder and &find()
+{
+    my $dir = '.'.IO but Kaolin::File::Finder;
+    is  [$dir.find],
+        [".gitignore".IO, "Changes".IO, "LICENSE".IO, "META6.json".IO, "README.md".IO, "dist.ini".IO],
+        "find in .";
+}
+
+# role Namer and mv-file
+{
+    my $bad = 'Apples (and) Pears.txt'.IO but Kaolin::File::Namer;
+    $bad.spurt('temp testing file');
+    my $good = $bad.fix-basename;
+
+    is $bad.e, False, 'bad name removed';
+    is $good.e, True, 'good name exists';
+    $bad.unlink if $bad.e;
+    $good.unlink if $good.e;
+}
+
+#done-testing;
