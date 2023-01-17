@@ -13,7 +13,10 @@
   "perl": "6.d",
   "provides": {
     "Kaolin": "lib/Kaolin.rakumod",
+    "Kaolin::Cargo": "lib/Kaolin/Cargo.rakumod",
+    "Kaolin::File": "lib/Kaolin/File.rakumod",
     "Kaolin::Moppet": "lib/Kaolin/Moppet.rakumod",
+    "Kaolin::Node": "lib/Kaolin/Node.rakumod",
     "Kaolin::Utils": "lib/Kaolin/Utils.rakumod",
     "Kaolin::Wisp": "lib/Kaolin/Wisp.rakumod"
   },
