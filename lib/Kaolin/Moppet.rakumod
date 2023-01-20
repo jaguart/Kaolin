@@ -1,4 +1,4 @@
-use v6;
+use v6.d+;
 
 use Kaolin::Utils :cleanup-mop-name, :is-core-class, :cleanup-which-name;
 
@@ -117,6 +117,7 @@ method var-name ( --> Str ) {
 
 method var-value {
   return '' unless try $!thing.VAR.raku; # Grammar ->  Role: NQPParametricRoleHOW
+  return '' if $!thing ~~ Sub;
   $!thing.DEFINITE ?? $!thing.VAR.raku !! '';
 }
 
@@ -542,5 +543,57 @@ method enums {
 method enum-names {
     return self.enums.map(*.key)
 }
+
+
+method ver ( --> Version ) {
+    return $!thing.ver if try $!thing.ver;
+    return $!thing.^ver if try $!thing.^ver;
+    Nil;
+}
+
+# or a Rat?
+method api( --> Str ) {
+    return $!thing.api if try $!thing.api;
+    return $!thing.^api if try $!thing.^api;
+    if $!thing.HOW.^name ~~ / RoleGroupHOW / {
+        # ParametricRoleGroupHOW is missing the api method.
+        return $!thing.^candidates.first.^api if try $!thing.^candidates.first.^api;
+    }
+    Nil;
+}
+
+method auth ( --> Str ) {
+    return $!thing.auth if try $!thing.auth;
+    return $!thing.^auth if try $!thing.^auth;
+    Nil;
+}
+
+method archetypes( --> List ) {
+    my $arch = try $!thing.^archetypes;
+    if $arch {
+        my @a;
+        @a.append('augmentable')        if $arch.augmentable     ;
+        @a.append('coercive')           if $arch.coercive        ;
+        @a.append('composable')         if $arch.composable      ;
+        @a.append('composalizable')     if $arch.composalizable  ;
+        @a.append('definite')           if $arch.definite        ;
+        @a.append('generic')            if $arch.generic         ;
+        @a.append('inheritable')        if $arch.inheritable     ;
+        @a.append('inheritalizable')    if $arch.inheritalizable ;
+        @a.append('nominal')            if $arch.nominal         ;
+        @a.append('nominalizable')      if $arch.nominalizable   ;
+        @a.append('parametric')         if $arch.parametric      ;
+        return @a.List;
+    }
+    Empty;
+}
+
+method language-version ( --> Str ) {
+    return $!thing.^language-version if try $!thing.^language-version;
+    return $!thing.HOW.language-version($!thing) if try $!thing.HOW.language-version($!thing);
+    Nil;
+}
+
+
 
 # done

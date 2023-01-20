@@ -1,4 +1,4 @@
-use v6;
+use v6.d+;
 
 use nqp;
 
@@ -54,7 +54,7 @@ our sub CompUnit-from-file ( IO::Path:D $file --> CompUnit )
 sub is-core-class ( Mu $o is raw --> Bool ) is export(:is-core-class) {
 
     my $cwn = cleanup-which-name($o);
-    #say $cwn, ' ', $o.WHICH, $o.WHICH.gist, $o.WHAT, $o.WHERE, $o.raku.substr(0,80);
+    #say $cwn.raku, ' ', $o.WHICH, $o.WHICH.gist, $o.WHAT, $o.WHERE, $o.raku.substr(0,80);
 
     # Jeff 01-Jan-2023 Grammar has a .WHICH.Str of Str|NQPMatchRole
 
@@ -63,8 +63,21 @@ sub is-core-class ( Mu $o is raw --> Bool ) is export(:is-core-class) {
 
     # Jeff 01-Jan-2023 Grammar and Match have an issue with this
     return True if CORE::{$cwn}:exists;
+    #say $cwn.raku, ' not in CORE::';
 
     return False;
+}
+
+sub is-package ( Mu $o is raw --> Bool ) is export(:is-package) {
+    ($o.HOW.^name ~~ / ModulesHOW | PackageHOW /).so;
+}
+
+sub is-class ( Mu $o is raw --> Bool ) is export(:is-class) {
+    ($o.HOW.^name ~~ / ClassHOW /).so;
+}
+
+sub is-role ( Mu $o is raw --> Bool ) is export(:is-role) {
+    ($o.HOW.^name ~~ / Role /).so;
 }
 
 sub cleanup-mop-name ( Str $name is copy --> Str ) is export(:cleanup-mop-name) {
@@ -78,7 +91,8 @@ sub cleanup-mop-name ( Str $name is copy --> Str ) is export(:cleanup-mop-name) 
 
 sub cleanup-which-name ( Mu $o --> Str ) is export(:cleanup-which-name) {
 
-    my $name = $o ~~ Str:D ?? $o.Str !! $o.?WHICH.gist // '';
+    #my $name = $o ~~ Str:D ?? $o.Str !! $o.?WHICH.gist // '';
+    my $name = $o.?WHICH.gist // '';
     return '' if $name eq 'Nil';  # e.g. no .WHICH for KnowHOW
 
     # e.g. Method+{<anon|1>}+{Kaolin::Moppet::Identified[Str],Kaolin::Moppet::Subtyped[Str]}
@@ -86,7 +100,8 @@ sub cleanup-which-name ( Mu $o --> Str ) is export(:cleanup-which-name) {
     $name = $name.subst('Kaolin::Moppet::Identified[Str]','');
     $name = $name.subst('+{,}|','|');
 
-    return $name.split(/ \| U ? <digit> + $ /)[0];
+    #return $name.split(/ \| U ? <digit> + $ /)[0];
+    return $name.split('|')[0];
 }
 
 #| Pad left and right, but only for content, otherwise empty string.

@@ -1,4 +1,4 @@
-v6;
+v6.d+;
 
 #-------------------------------------------------------------------------------
 # Jeff 11-Jan-2023 TODO: Make iterators for these
@@ -117,6 +117,7 @@ method descr ( --> Str ) { '' }
 method dump (
     Str $prefix is copy = '',
     Bool :$plain = False,   #= display ID
+    Bool :$lines = True,   #= display ID
     Int  :$pad is copy,     #= :0pad means no padding.
     ) {
 
@@ -137,6 +138,12 @@ method dump (
 
     my $format = $pad ?? '%-' ~ max( 0, ( $pad - $lead.chars - $prefix.chars )) ~ 's' !! '%s';
 
+    if not $lines {
+        $prefix.=subst(/\S/,'*',:g);
+        $lead.=subst(/\S/,' ',:g);
+        $more.=subst(/\S/,' ',:g);
+        $last.= subst(/\S/,' ',:g);
+    }
 
     say $prefix, $lead, $format.sprintf($!name), ' ', self.descr;
 
@@ -145,7 +152,7 @@ method dump (
     $prefix.=subst(/\└\s/, '  ', :g);   # prior last-kid hangover
     $prefix.=subst(/\├\s/, '│ ',:g);    # prior inter-kid hangover
 
-    .dump( $prefix ~ ($_.id == @!kids.tail.id ?? $last !! $more), :$plain, :$pad ) for @!kids;
+    .dump( $prefix ~ ($_.id == @!kids.tail.id ?? $last !! $more), :$plain, :$pad, :$lines ) for @!kids;
 
 }
 
