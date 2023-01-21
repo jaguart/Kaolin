@@ -115,10 +115,19 @@ method var-name ( --> Str ) {
   return '';
 }
 
-method var-value {
-  return '' unless try $!thing.VAR.raku; # Grammar ->  Role: NQPParametricRoleHOW
-  return '' if $!thing ~~ Sub;
-  $!thing.DEFINITE ?? $!thing.VAR.raku !! '';
+method var-value ( --> Str ) {
+    return '' unless $!thing.DEFINITE;
+    return '' unless $!thing.VAR;
+
+    # Wisp driven...
+    return '' if $!thing ~~ Routine;
+    return '' if $!thing ~~ Sub;
+
+    #return $!thing.raku if $!thing.^name eq 'Str'; # Quoted
+    return $!thing.gist if is-core-class($!thing);
+
+    return $!thing.raku;
+
 }
 
 #| aka POD declarators
@@ -569,8 +578,7 @@ method auth ( --> Str ) {
 }
 
 method archetypes( --> List ) {
-    my $arch = try $!thing.^archetypes;
-    if $arch {
+    if my $arch = try $!thing.^archetypes {
         my @a;
         @a.append('augmentable')        if $arch.augmentable     ;
         @a.append('coercive')           if $arch.coercive        ;
@@ -588,6 +596,7 @@ method archetypes( --> List ) {
     Empty;
 }
 
+# Haven't actually seen this work yet
 method language-version ( --> Str ) {
     return $!thing.^language-version if try $!thing.^language-version;
     return $!thing.HOW.language-version($!thing) if try $!thing.HOW.language-version($!thing);

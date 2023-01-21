@@ -73,6 +73,7 @@ submethod TWEAK {
 
     #my  $type = $!whom ne $!mop.type ?? $!mop.which || $!mop.type || '' !! '';
         $type = '' if $!mop.subtype and $!mop.type eq 'Attribute';
+        #$type = '' if $type eq 'Str';
         #say 'type', $type.raku;
 
     my  $supertype  =  $!mop.supertype;
@@ -81,11 +82,11 @@ submethod TWEAK {
     my  $name       = $!mop.name;
         $name       = '' if $name eq ( $!whom | '<anon>' | $type | $!whom.substr(1) );
 
-#                say '$name,          ', $name.raku               ;
-#                say '$!mop.signature ', $!mop.signature.raku     ;
-#                say '$!mop.subtype   ', $!mop.subtype.raku       ;
-#                say '$type           ', $type.raku               ;
-#                say '$supertype      ', $supertype.raku          ;
+                #say '$name,          ', $name.raku               ;
+                #say '$!mop.signature ', $!mop.signature.raku     ;
+                #say '$!mop.subtype   ', $!mop.subtype.raku       ;
+                #say '$type           ', $type.raku               ;
+                #say '$supertype      ', $supertype.raku          ;
 
     $!what  = (
                 $name,
@@ -102,10 +103,11 @@ submethod TWEAK {
     #say ': signiture ', $!mop.signature // '',                                                     ;
     #say ': subtype   ', $!mop.subtype //'',                                                        ;
     #say ': type      ', $type,                                                                     ;
+    #say ': mop-type  ', $!mop.type,                                                               ;
     #say ': descr     ', $!mop.descr,                                                               ;
     #say ': supertype ', $supertype,                                                                ;
 
-    $!what ||= $!mop.supertype;
+    $!what ||= $!mop.supertype unless $!mop.type eq 'Str';
 
     #say 'whom:    ', $!whom;
     #say 'what:    ', $!what;
@@ -114,8 +116,8 @@ submethod TWEAK {
 
     # Add Parents and Roles for Classes
     if $!what eq $!mop.supertype {
-        $!what ~= ' is: '   ~ $!mop.parent-names.join(' ')  if $!mop.parent-names.elems;
-        $!what ~= ' does: ' ~ $!mop.role-names.join(' ')    if $!mop.role-names.elems;
+        $!what ~= ' is: ('   ~ $!mop.parent-names.join(' ') ~ ')' if $!mop.parent-names.elems;
+        $!what ~= ' does: (' ~ $!mop.role-names.join(' ') ~ ')'   if $!mop.role-names.elems;
     }
     $!what ~= ' enums: ' ~ $!mop.enum-names.join(' ') if $!mop.enum-names.elems;
 
